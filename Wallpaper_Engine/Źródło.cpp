@@ -8,12 +8,12 @@
 #include <time.h>       /*time*/
 using namespace std;
 
-const string strLocalDirectory = pathToFolder;// "R:/Wallpapers/DeathStrandingWallpapers";
+const string strLocalDirectory = pathToFolder;
 string filePath;
 
 
 //shouldItBeRenamed(); jest wylaczone
-//minimize wy���zone
+//minimize wylaczone
 
 
 bool setBackground(int i)
@@ -32,15 +32,15 @@ bool setBackground(int i)
 	return false;
 }
 
-void randomWallpaper(int max)		//dodaj co� w styl ze 5 pod rzad nie bedzie takich samych, czyli array 
+void randomWallpaper(int max)		
 {
 	int time = 20, x = 0;
 	int const maxSkip = 10;
 	int skip[maxSkip];	//don't repeat at least [m] times
 
-//	while (true)																		<---------- dzialanie w petli wylczone (sleep tez, uruchom go bo cos sie rozwali bez sleepa w petli)
+//	while (true)																		
 	{
-		int i = rand() % (max); //+1 by od 1 do max
+		int i = rand() % (max);
 		for (int a = 0; a < maxSkip; a++)
 		{
 			if (skip[a] == i) {
@@ -52,18 +52,17 @@ void randomWallpaper(int max)		//dodaj co� w styl ze 5 pod rzad nie bedzie tak
 
 		if (setBackground(i)) {
 			cout << "Tapeta nr " << i << endl;
-	//		saveToTxt(i, max);										<--------- zapis do txt (statystyki)
 		}
 		else { //print error type
 			DWORD DWLastError = GetLastError();
 			cout << "\nError: " << std::hex << DWLastError;
 		}
 
+		//its used in loop version
 		x++; //Przed if aby nie wyszlo od [0] do [maxSkip - 1]
 		if (x == maxSkip) {
 			x = 1;
 		}
-
 
 		//cooldown
 	//	Sleep(1000 * 60 * time); //co min minut
@@ -71,33 +70,14 @@ void randomWallpaper(int max)		//dodaj co� w styl ze 5 pod rzad nie bedzie tak
 
 }
 
-void inOrderWallpaper(int max)
-{
-	for (int i = rand() % max; i <= max; i++)
-	{
-		if (setBackground(i)) {
-			cout << "Tapeta nr " << i << "\n";
-		}
-		else { //print error type
-			DWORD DWLastError = GetLastError();
-			cout << "\nError: " << std::hex << DWLastError;
-		}
-		//cooldown
-		Sleep(1000 * 60 * 10); //co 20 minut
-
-		//repeat
-		if (i == max) i = -1;
-	}
-}
 
 void programLoop()
 {
 	int max = howManyFiles();
-	cout << "Tapet b�dzie " << max << endl;
+	cout << "Tapet bedzie " << max << endl;
 
 	randomWallpaper(max);
 }
-
 
 
 void shouldItBeRenamed()
@@ -107,8 +87,8 @@ void shouldItBeRenamed()
 	cin >> wola;
 	if (wola)
 	{
-		if (renameFiles() == 0)		cout << "\nPliki zyska�y now� to�samo��. Ju� ich nie znajd�!\n\n";
-		else						cout << "\nM�j Panie, pliki si� buntuj�!\n\n";
+		if (renameFiles() == 0)		cout << "\nPliki zyskaly nowa tozsamosc. Juz ich nie znajda!\n\n";
+		else						cout << "\nMoj Panie, pliki sie buntuja!\n\n";
 	}
 }
 
@@ -140,13 +120,12 @@ int main()
 	now = time(NULL);
 	ptr = localtime(&now);
 
-	cout << "Zacz��e� o " << (*ptr).tm_hour << ':' << ptr->tm_min << endl;
+	cout << "Poczatek o " << (*ptr).tm_hour << ':' << ptr->tm_min << endl;
 	//shouldItBeRenamed();	
 	renameFiles();
 	//minimize();
-	//	saveTime(struct hourAndMin);
 	programLoop(); //petla wylaczona
-	close();
+//	close();
 
 }
 

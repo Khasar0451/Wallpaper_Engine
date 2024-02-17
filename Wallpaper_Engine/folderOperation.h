@@ -18,5 +18,3 @@ const string pathToFolder = "R:/Wallpapers/GeneralWallpapers/";
 
 int renameFiles();
 int howManyFiles();
-void saveToTxt(int nr, int max);
-void saveTime(struct hourAndMin);
