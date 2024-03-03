@@ -32,40 +32,28 @@ bool setBackground(int i)
 	return false;
 }
 
-void randomWallpaper(int max)		
-{
-	int time = 20, x = 0;
-	int const maxSkip = 10;
-	int skip[maxSkip];	//don't repeat at least [m] times
+void setWallpaper(int number) {
+	if (setBackground(number)) {
+		cout << "Tapeta nr " << number << endl;
+	}
+	else { //print error type
+		DWORD DWLastError = GetLastError();
+		cout << "\nError: " << std::hex << DWLastError;
+	}
 
-//	while (true)																		
+}
+
+void loopSetWallpaper(int max)
+{
+	int time = 20;
+
+	while (true)																	
 	{
 		int i = rand() % (max);
-		for (int a = 0; a < maxSkip; a++)
-		{
-			if (skip[a] == i) {
-				i = rand() % (max);
-				a = 0;
-			}
-		}
-		skip[x] = i;
-
-		if (setBackground(i)) {
-			cout << "Tapeta nr " << i << endl;
-		}
-		else { //print error type
-			DWORD DWLastError = GetLastError();
-			cout << "\nError: " << std::hex << DWLastError;
-		}
-
-		//its used in loop version
-		x++; //Przed if aby nie wyszlo od [0] do [maxSkip - 1]
-		if (x == maxSkip) {
-			x = 1;
-		}
+		setWallpaper(i);
 
 		//cooldown
-	//	Sleep(1000 * 60 * time); //co min minut
+		Sleep(1000 * 60 * time); //co min minut
 	}
 
 }
@@ -75,21 +63,11 @@ void programLoop()
 {
 	int max = howManyFiles();
 	cout << "Tapet bedzie " << max << endl;
+	
+	loopSetWallpaper(max);
+	setWallpaper(rand() % (max));
 
-	randomWallpaper(max);
-}
-
-
-void shouldItBeRenamed()
-{
-	bool wola;
-	cout << "Uzywaj kopii zapasowej na wszelki wypadek.\nChcesz zmienic nazwy plikow w F:/TBB/? \n\n0 - nie \n1 - tak \n";
-	cin >> wola;
-	if (wola)
-	{
-		if (renameFiles() == 0)		cout << "\nPliki zyskaly nowa tozsamosc. Juz ich nie znajda!\n\n";
-		else						cout << "\nMoj Panie, pliki sie buntuja!\n\n";
-	}
+	//randomWallpaper(max);
 }
 
 void minimize()
@@ -127,28 +105,4 @@ int main()
 	programLoop(); //petla wylaczona
 //	close();
 
-}
-
-
-
-
-
-
-//
-//int main()
-//{
-//	const wchar_t* path = L"F:\\WALLPAPER_ENGINE\\meve2";
-//
-//	//for (int i = 0; i < 10; i++)
-//	{
-//		/*Sleep(1000);
-//		if (i % 2 == 0)
-//			path = L"F:\\WALLPAPER_ENGINE\\meve2";
-//		else
-//			path = L"F:\\WALLPAPER_ENGINE\\meve1";*/
-//
-//		int result = SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (void*)path, SPIF_UPDATEINIFILE);
-//
-//		cout << result << endl;
-//	}
-//}
+} 
