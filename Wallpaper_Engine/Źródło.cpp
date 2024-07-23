@@ -15,6 +15,26 @@ string filePath;
 //shouldItBeRenamed(); jest wylaczone
 //minimize wylaczone
 
+void setStyle() {
+	HKEY hKey;
+	LONG result = RegOpenKeyEx(HKEY_CURRENT_USER, L"Control Panel\\Desktop", 0, KEY_SET_VALUE, &hKey);
+
+	if (result == ERROR_SUCCESS) {
+		 
+		const wchar_t* tileValue = L"0";  // Tile value is 0 for non-tiled wallpapers
+		// Fit
+		const wchar_t* styleValue = L"6";
+		
+
+		RegSetValueEx(hKey, L"WallpaperStyle", 0, REG_SZ, (BYTE*)styleValue, lstrlen(styleValue) + 1);
+		RegSetValueEx(hKey, L"TileWallpaper", 0, REG_SZ, (BYTE*)tileValue, lstrlen(tileValue) + 1);
+
+		RegCloseKey(hKey);
+	}
+	else {
+		std::cerr << "Failed to open registry key. Error code: " << result << std::endl;
+	}
+}
 
 bool setBackground(int i)
 {
@@ -64,7 +84,7 @@ void programLoop()
 	int max = howManyFiles();
 	cout << "Tapet bedzie " << max << endl;
 	
-	loopSetWallpaper(max);
+	//loopSetWallpaper(max);
 	setWallpaper(rand() % (max));
 
 	//randomWallpaper(max);
